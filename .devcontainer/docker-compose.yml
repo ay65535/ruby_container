@@ -1,0 +1,30 @@
+version: "3.4"
+services:
+  main:
+    env_file: ../.env
+    environment:
+      http_proxy: ${http_proxy}
+      https_proxy: ${https_proxy}
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        http_proxy: ${http_proxy}
+        https_proxy: ${https_proxy}
+        USERNAME: vscode
+        VARIANT: 2
+        INSTALL_NODE: false
+        NODE_VERSION: lts/*
+    volumes:
+      # Mounts the project folder to '/workspaces/ruby_container'. While this file is in .devcontainer,
+      # mounts are relative to the first file in the list, which is a level up.
+      - ../:/workspaces/ruby_container:delegated
+      - vol-bashhistory:/commandhistory
+      - vol-extensions-insiders:/root/.vscode-server-insiders/extensions
+      # - vol-extensions-insiders:/home/vscode/.vscode-server-insiders/extensions
+    # Overrides default command so things don't shut down after the process ends.
+    # command: /bin/sh -c "while sleep 1000; do :; done"
+    tty: true
+volumes:
+  vol-bashhistory:
+  vol-extensions-insiders:
