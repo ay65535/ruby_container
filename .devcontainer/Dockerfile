@@ -1,12 +1,9 @@
-# See here for image contents: https://github.com/microsoft/vscode-dev-containers/tree/v0.145.0/containers/ruby/.devcontainer/base.Dockerfile
-
 # [Choice] Ruby version: 2, 2.7, 2.6, 2.5
-ARG VARIANT="2"
-FROM mcr.microsoft.com/vscode/devcontainers/ruby:0-${VARIANT}
+ARG VARIANT=2
+FROM mcr.microsoft.com/vscode/devcontainers/ruby:${VARIANT}
 
 # Avoid warnings by switching to noninteractive
-ENV DEBIAN_FRONTEND=noninteractive \
-    https_proxy=${https_proxy} \
+ENV https_proxy=${https_proxy} \
     http_proxy=${http_proxy}
 
 # This Dockerfile adds a non-root 'vscode' user with sudo access. However, for Linux,
@@ -19,10 +16,11 @@ ARG USER_GID=$USER_UID
 ARG http_proxy
 ARG https_proxy
 
-# [Option] Install Node.js
-ARG INSTALL_NODE="true"
+# Install Rails
+RUN gem install rails webdrivers 
+
 ARG NODE_VERSION="lts/*"
-RUN if [ "${INSTALL_NODE}" = "true" ]; then su vscode -c "source /usr/local/share/nvm/nvm.sh && nvm install ${NODE_VERSION} 2>&1"; fi
+RUN su vscode -c "source /usr/local/share/nvm/nvm.sh && nvm install ${NODE_VERSION} 2>&1"
 
 # [Optional] Uncomment this section to install additional OS packages.
 # RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
@@ -51,6 +49,3 @@ RUN SNIPPET="export PROMPT_COMMAND='history -a' && export HISTFILE=/commandhisto
 
 USER vscode
 ENV HOME /home/$USERNAME
-
-# Switch back to dialog for any ad-hoc use of apt-get
-ENV DEBIAN_FRONTEND=

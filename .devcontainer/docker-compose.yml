@@ -13,8 +13,8 @@ services:
         https_proxy: ${https_proxy}
         USERNAME: vscode
         VARIANT: 2
-        INSTALL_NODE: false
-        NODE_VERSION: lts/*
+        INSTALL_NODE: "false"
+        NODE_VERSION: "lts/*"
     volumes:
       # Mounts the project folder to '/workspaces/ruby_container'. While this file is in .devcontainer,
       # mounts are relative to the first file in the list, which is a level up.

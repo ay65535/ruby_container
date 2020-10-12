@@ -1,5 +1,5 @@
 {
-	"name": "Ruby",
+	"name": "Ruby on Rails",
 	"dockerComposeFile": [ "docker-compose.yml" ],
 	"service": "main",
 	"workspaceFolder": "/workspaces/ruby_container",
